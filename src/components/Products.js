@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts, searchQuery } from '../redux/productSlice';
 
-
 function Products() {
     const [search, setSearch] = useState('');
+    const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products);
 
@@ -29,8 +29,12 @@ function Products() {
             });
 
             if (response.ok) {
-                console.log('Item purchased successfully');
+                setShowPopup(true); // Show pop-up on successful purchase
 
+                // Hide the pop-up after 1 second
+                setTimeout(() => {
+                    setShowPopup(false);
+                }, 1000);
             }
         } catch (error) {
             console.error(`An error occurred: ${error}`);
@@ -38,7 +42,14 @@ function Products() {
     };
 
     return (
-        <div data-testid="productsPage">
+        <div>
+            {/* Pop-up message */}
+            {showPopup && (
+                <div className="popup">
+                    <p>Item purchased successfully!</p>
+                    <button onClick={() => setShowPopup(false)}>Close</button>
+                </div>
+            )}
 
             <div className="search">
                 <input
@@ -56,20 +67,24 @@ function Products() {
                             if (search === '') {
                                 return product;
                             }
-                            if (product.title.toLowerCase().includes(search.toLowerCase())
-                                || product.category.toLowerCase().includes(search.toLowerCase())) {
+                            if (
+                                product.title.toLowerCase().includes(search.toLowerCase()) ||
+                                product.category.toLowerCase().includes(search.toLowerCase())
+                            ) {
                                 return product;
                             }
                             return null;
                         })
                         .map((product, index) => (
-                            <div className={`products-item ${index % 2 === 0 ? 'background-1' : 'background-2'}`} key={product.id}>
+                            <div
+                                className={`products-item ${index % 2 === 0 ? 'backgroundColor-1' : 'backgroundColor-2'}`}
+                                key={product.id}
+                            >
                                 <img src={product.thumbnail} alt="" />
                                 <h3>{product.title}</h3>
 
                                 <p style={{ marginTop: 5 }}>Category: {product.category}</p>
-                                <p style={{ marginTop: 5 }}>Price: ${product.price}
-                                </p>
+                                <p style={{ marginTop: 5 }}>Price: ${product.price}</p>
                                 <br />
 
                                 <div className="button">
@@ -77,16 +92,17 @@ function Products() {
                                         type="submit"
                                         style={{ cursor: 'pointer' }}
                                         title="Purchase"
-                                        onClick={() => handlePurchase({
-                                            productId: product.id,
-                                            title: product.title,
-                                            price: product.price,
-                                            category: product.category,
-                                        })}
+                                        onClick={() =>
+                                            handlePurchase({
+                                                productId: product.id,
+                                                title: product.title,
+                                                price: product.price,
+                                                category: product.category,
+                                            })
+                                        }
                                     >
                                         PURCHASE
                                     </button>
-
                                 </div>
                             </div>
                         ))}

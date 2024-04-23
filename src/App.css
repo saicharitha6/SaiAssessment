@@ -25,17 +25,6 @@ nav h3 {
   font-weight: 900;
 }
 
-nav ul {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-  list-style-type: none;
-}
-
-nav ul li {
-  margin-right: 10px;
-}
 
 .search {
   display: flex;
@@ -54,7 +43,7 @@ nav ul li {
   background-color: rgba(40, 39, 42, 0.518);
   border: 2px solid rgb(255, 255, 255);
   padding: 5px;
-  font-family: 'Poppins', sans-serif;
+  font-family:'Times New Roman', Times, serif;
   border-radius: 10px;
   margin-top: 0;
   height: 40px;
@@ -95,11 +84,11 @@ nav ul li {
   text-align: center;
 }
 
-.background-1 {
+.backgroundColor-1 {
   background-color: #000;
 }
 
-.background-2 {
+.backgroundColor-2 {
   background-color: #000;
 }
 
@@ -120,22 +109,6 @@ nav ul li {
   /* margin:10px; */
 }
 
-.view-more {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 75%;
-}
-
-.view-more a {
-  background-color: transparent;
-  outline: none;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 20px;
-}
 
 @media screen and (max-width: 768px) {
   .products-grid {
